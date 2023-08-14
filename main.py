@@ -1,30 +1,29 @@
 import xml.etree.ElementTree as ET
-from tkinter import *
-
+import os
 
 # Menú
 def cargar_archivo():
-    # Aquí puedes implementar la lógica para cargar un archivo
+    # Aquí se puede implementar la lógica para cargar un archivo
     pass
 
 def procesar_archivo():
-    # Aquí puedes implementar la lógica para procesar un archivo
+    # Aquí se puede implementar la lógica para procesar un archivo
     pass
 
 def escribir_archivo_salida():
-    # Aquí puedes implementar la lógica para escribir un archivo de salida
+    # Aquí se puede implementar la lógica para escribir un archivo de salida
     pass
 
 def mostrar_datos_estudiante():
-    # Aquí puedes implementar la lógica para mostrar los datos del estudiante
+    # Aquí se puede implementar la lógica para mostrar los datos del estudiante
     pass
 
 def generar_grafica():
-    # Aquí puedes implementar la lógica para generar una gráfica
+    # Aquí se puede implementar la lógica para generar una gráfica
     pass
 
 def inicializar_sistema():
-    # Aquí puedes implementar la lógica para inicializar el sistema
+    # Aquí se puede implementar la lógica para inicializar el sistema
     pass
 
 while True:
