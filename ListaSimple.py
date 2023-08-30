@@ -4,57 +4,55 @@ from graphviz import Graph
 class ListaSimple():
     id = 0
     def __init__(self):
-        self.nodoInicio = None
-        self.nodoFinal = None
+        self.primer_nodo = None
         self.size = 0
 
-    def getInicio(self):
-        return self.nodoInicio
+    def get_inicio(self):
+        return self.primer_nodo
 
-    def estaVacia(self):
-        return self.nodoInicio == None
+    def esta_vacia(self):
+        return self.primer_nodo is None
         #return self.size == 0
 
-    def agregarFinal(self, dato):
+    def agregar_final(self, dato):
         nuevo = Nodo(self.id, dato)
         self.id += 1
-        if self.estaVacia():
-            self.nodoInicio = nuevo
-            self.nodoFinal = nuevo
+        if self.esta_vacia():
+            self.primer_nodo = nuevo
         else:
-            self.nodoFinal.setSiguiente(nuevo)
-            self.nodoFinal = nuevo
+            actual = self.primer_nodo
+            while actual.get_siguiente() is not None:
+                actual = actual.get_siguiente()
+            actual.set_siguiente(nuevo)
         self.size += 1
 
-    def agregarInicio(self, dato):
+    def agregar_inicio(self, dato):
         nuevo = Nodo(self.id, dato)
         self.id += 1
-        if self.estaVacia():
-            self.nodoInicio = nuevo
-            self.nodoFinal = nuevo
+        if self.esta_vacia():
+            self.primer_nodo = nuevo
         else:
-            nuevo.setSiguiente(self.nodoInicio)
-            self.nodoInicio = nuevo
+            nuevo.set_siguiente(self.primer_nodo)
+            self.primer_nodo = nuevo
         self.size += 1
 
     def imprimir(self):
-        tmp = self.nodoInicio
+        tmp = self.primer_nodo
         while tmp != None:
-            print(tmp.getDato())
-            tmp = tmp.getSiguiente()
+            print(tmp.get_dato())
+            tmp = tmp.get_siguiente()
 
-    def graficar(self, nombreArchivo):
-        graph = Graph(nombreArchivo)
-        tmp = self.nodoInicio
+    def graficar(self, nombre_archivo):
+        graph = Graph(nombre_archivo)
+        tmp = self.primer_nodo
         while tmp != None:
-            graph.add(tmp, tmp.getSiguiente())
-            tmp = tmp.getSiguiente()
+            graph.add(tmp, tmp.get_siguiente())
+            tmp = tmp.get_siguiente()
         graph.generar()
 
-    def convertirABinario(self):
-        tmp = self.nodoInicio
+    def convertir_a_binario(self):
+        tmp = self.primer_nodo
         while tmp != None:
-            if(int(tmp.getDato())>=1):
-                tmp.setDato(1)
-            tmp = tmp.getSiguiente()
-
+            if(int(tmp.get_dato())>=1):
+                tmp.set_dato(1)
+            tmp = tmp.get_siguiente()
