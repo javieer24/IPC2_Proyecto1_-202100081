@@ -9,6 +9,7 @@ class Lista:
         insertar(nombre): Inserta un nuevo nodo con el nombre dado al final de la lista.
         buscar(nombre): Busca un nodo con el nombre dado en la lista y devuelve Verdadero si se encuentra, Falso en caso contrario.
         generar_reporte_grafico(): Genera un informe gráfico utilizando Graphviz (no implementado).
+        mostrar_datos(): Muestra los datos de la lista.
     """
     def __init__(self):
         self.cabeza = None
@@ -32,5 +33,11 @@ class Lista:
         return False
 
     def generar_reporte_grafico(self):
-        # Aquí puedes implementar la lógica para generar un informe gráfico utilizando Graphviz
+        # Aquí se puede implementar la lógica para generar un informe gráfico utilizando Graphviz
         pass
+
+    def mostrar_datos(self):
+        actual = self.cabeza
+        while actual is not None:
+            print(actual.nombre)
+            actual = actual.siguiente
