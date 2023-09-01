@@ -1,58 +1,102 @@
 from nodo import Nodo
-from graphviz import Graph
+from grafica import Grafica
 
-class ListaSimple():
+# Clase para representar listas simples
+class ListaSimple:
+
+    # Clase para representar listas simples
+
     id = 0
+
+    # Comentario para explicar el propósito del atributo `nodoInicio`
+
     def __init__(self):
-        self.primer_nodo = None
+        # Comentario para explicar el propósito del constructor
+        self.nodoInicio = None
+        self.nodoFinal = None
         self.size = 0
 
-    def get_inicio(self):
-        return self.primer_nodo
+    # Comentario para explicar el propósito del método `getInicio()`
 
-    def esta_vacia(self):
-        return self.primer_nodo is None
-        #return self.size == 0
+    def getInicio(self):
+        # Comentario para explicar el propósito del método
+        return self.nodoInicio
 
-    def agregar_final(self, dato):
+    # Comentario para explicar el propósito del método `estaVacia()`
+
+    def estaVacia(self):
+        # Comentario para explicar el propósito del método
+        return self.nodoInicio == None
+
+    # Comentario para explicar el propósito del método `agregarFinal()`
+
+    def agregarFinal(self, dato):
+        # Comentario para explicar el propósito del método
         nuevo = Nodo(self.id, dato)
         self.id += 1
-        if self.esta_vacia():
-            self.primer_nodo = nuevo
+        if self.estaVacia():
+            # Comentario para explicar el caso en el que la lista está vacía
+            self.nodoInicio = nuevo
+            self.nodoFinal = nuevo
         else:
-            actual = self.primer_nodo
-            while actual.get_siguiente() is not None:
-                actual = actual.get_siguiente()
-            actual.set_siguiente(nuevo)
+            # Comentario para explicar el caso en el que la lista no está vacía
+            self.nodoFinal.setSiguiente(nuevo)
+            self.nodoFinal = nuevo
         self.size += 1
 
-    def agregar_inicio(self, dato):
+    # Comentario para explicar el propósito del método `agregarInicio()`
+
+    def agregarInicio(self, dato):
+        # Comentario para explicar el propósito del método
         nuevo = Nodo(self.id, dato)
         self.id += 1
-        if self.esta_vacia():
-            self.primer_nodo = nuevo
+        if self.estaVacia():
+            # Comentario para explicar el caso en el que la lista está vacía
+            self.nodoInicio = nuevo
+            self.nodoFinal = nuevo
         else:
-            nuevo.set_siguiente(self.primer_nodo)
-            self.primer_nodo = nuevo
+            # Comentario para explicar el caso en el que la lista no está vacía
+            nuevo.setSiguiente(self.nodoInicio)
+            self.nodoInicio = nuevo
         self.size += 1
 
-    def imprimir(self):
-        tmp = self.primer_nodo
-        while tmp != None:
-            print(tmp.get_dato())
-            tmp = tmp.get_siguiente()
+    # Comentario para explicar el propósito del método `agregarEnOrden()`
 
-    def graficar(self, nombre_archivo):
-        graph = Graph(nombre_archivo)
-        tmp = self.primer_nodo
-        while tmp != None:
-            graph.add(tmp, tmp.get_siguiente())
-            tmp = tmp.get_siguiente()
-        graph.generar()
+    def agregarEnOrden(self, dato):
+        # Comentario para explicar el propósito del método
+        nuevo = Nodo(self.id, dato)
+        self.id += 1
+        if self.estaVacia():
+            # Comentario para explicar el caso en el que la lista está vacía
+            self.nodoInicio = nuevo
+            self.nodoFinal = nuevo
+        elif dato < self.nodoInicio.getDato():
+            # Comentario para explicar el caso en el que el dato es menor que el primer elemento de la lista
+            nuevo.setSiguiente(self.nodoInicio)
+            self.nodoInicio = nuevo
+        elif dato > self.nodoFinal.getDato():
+            # Comentario para explicar el caso en el que el dato es mayor que el último elemento de la lista
+            self.nodoFinal.setSiguiente(nuevo)
+            self.nodoFinal = nuevo
+        else:
+            # Comentario para explicar el caso en el que el dato está entre los elementos de la lista
+            tmp = self.nodoInicio
+            while tmp.getSiguiente().getDato() < dato:
+                tmp = tmp.getSiguiente()
+            nuevo.setSiguiente(tmp.getSiguiente())
+            tmp.setSiguiente(nuevo)
+        self.size += 1
 
-    def convertir_a_binario(self):
-        tmp = self.primer_nodo
-        while tmp != None:
-            if(int(tmp.get_dato())>=1):
-                tmp.set_dato(1)
-            tmp = tmp.get_siguiente()
+    # Comentario para explicar el propósito del método `eliminarInicio()`
+
+    def eliminarInicio(self):
+        if not self.estaVacia():
+            if self.nodoInicio == self.nodoFinal:
+                # Comentario para explicar el caso en el que la lista tiene un solo elemento
+                self.nodoInicio = None
+                self.nodoFinal = None
+            else:
+                # Comentario para explicar el caso en el que la lista no está vacía
+                self.nodoInicio = self.nodoInicio.getSiguiente()
+                self.nodoInicio.setAnterior(None)
+        self

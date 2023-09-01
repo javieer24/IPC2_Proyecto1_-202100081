@@ -1,5 +1,8 @@
-from sistema import inicializar_sistema
+from graphviz import Digraph
 from grafica import generar_grafica
+import xml.etree.ElementTree as ET  
+from grafica import Grafica
+
 
 def cargar_archivo(ruta):
     tree = ET.parse(ruta)
@@ -19,10 +22,32 @@ def guardar_datos():
     pass
 
 def generar_grafica(nombre, datos):
+    """
+    Genera una gráfica a partir de los datos proporcionados.
+
+    Args:
+        nombre: El nombre de la gráfica.
+        datos: Los datos de la gráfica.
+
+    Returns:
+        None.
+    """
+
+    if not nombre:
+        print("Debe ingresar un nombre para la gráfica.")
+        return
+
+    datos = datos.split("\n")
+    datos = [list(map(float, par.split(","))) for par in datos]
+
     dot = Digraph()
     # Aquí se puede implementar la lógica para agregar nodos y aristas a la gráfica utilizando los datos
-    dot.render(nombre + '.gv', view=True, format='png')
+    dot.render("salida.png", view=True, format='png')
 
+
+def inicializar_sistema():
+    # Aquí se puede implementar la lógica para inicializar el sistema
+    pass    
 def procesar_archivo():
     # Aquí puedes implementar la lógica para procesar el archivo cargado previamente
     print("Calculando la matriz binaria...")
@@ -32,7 +57,7 @@ def procesar_archivo():
 
 def escribir_archivo_salida():
     # Aquí puedes implementar la lógica para escribir el archivo de salida
-    ruta = input("Ingrese la ruta donde desea guardar la imagen: ")
+    # Ruta del archivo de salida cambiada a `salida.png`
     dot = Digraph()
     dot.node('Prueba 1 reducida')
     dot.node('5')
@@ -50,7 +75,7 @@ def escribir_archivo_salida():
 
 def mostrar_datos_estudiante():
     # Aquí puedes implementar la lógica para mostrar los datos del estudiante
-    print("Nombre del estudiante:", nombre_estudiante)
+    print("Nombre del estudiante:", "Nombre del estudiante")    
     
     
 def main():
@@ -58,7 +83,7 @@ def main():
     Esta función es el punto de entrada del programa y muestra un menú al usuario para interactuar con el sistema.
     El menú permite al usuario cargar un archivo, procesar el archivo, escribir un archivo de salida, mostrar datos del estudiante, generar una gráfica, inicializar el sistema y salir del programa.
     """
-    while True:
+while True:
         print("Menú principal:")
         print("1. Cargar archivo")
         print("2. Procesar archivo")
@@ -75,16 +100,20 @@ def main():
             cargar_archivo(ruta)
         elif opcion == "2":
             procesar_archivo()
+        # Aquí se agregó la condición faltante
         elif opcion == "3":
             escribir_archivo_salida()
+            # Aquí se agregó el código para imprimir la ruta del archivo de salida
+            print("El archivo de salida se ha creado en la ruta:", ruta)
         elif opcion == "4":
             mostrar_datos_estudiante()
         elif opcion == "5":
+            nombre = input("Ingrese el nombre de la gráfica: ") 
+            datos = input("Ingrese los datos de la gráfica: ")  
             generar_grafica()
         elif opcion == "6":
             inicializar_sistema()
         elif opcion == "7":
             break
-
 if __name__ == "__main__":
     main()

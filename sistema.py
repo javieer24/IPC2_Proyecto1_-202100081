@@ -1,7 +1,8 @@
-from senal import Senal
+from abc import ABC, abstractmethod
 
-# Clase para representar los sistemas
+
 class Sistema(ABC):
+
     # Atributos
     nombre: str
     tipo: str
@@ -14,55 +15,34 @@ class Sistema(ABC):
     # Métodos abstractos
     @abstractmethod
     def simular_senal(self, senal):
+        """
+        Simula la señal a través del sistema.
+
+        Args:
+            senal: La señal a simular.
+
+        Returns:
+            La señal de salida del sistema.
+        """
         pass
 
     # Métodos abstractos
     @abstractmethod
     def obtener_salida(self):
+        """
+        Obtiene la salida del sistema.
+
+        Returns:
+            La señal de salida del sistema.
+        """
         pass
 
-# Clase para representar el sistema de primer orden
-class SistemaPrimerOrden(Sistema):
-    # Atributos
-    constante_de_tiempo: float
-    ganancia: float
-
-    # Constructor
-    def __init__(self, nombre, tipo, constante_de_tiempo, ganancia):
-        super().__init__(nombre, tipo)
-        self.constante_de_tiempo = constante_de_tiempo
-        self.ganancia = ganancia
-
-    # Implementación del método simular_senal()
-    def simular_senal(self, senal):
-        # Aquí puedes implementar la lógica para simular la señal a través del sistema
+    # Métodos concretos
+    def inicializar_sistema(self):
+        # Aquí puedes implementar la lógica para inicializar el sistema
         pass
 
-    # Implementación del método obtener_salida()
-    def obtener_salida(self):
-        # Aquí puedes implementar la lógica para obtener la salida del sistema
-        pass
-
-# Clase para representar el sistema de segundo orden
-class SistemaSegundoOrden(Sistema):
-    # Atributos
-    constante_de_tiempo_1: float
-    constante_de_tiempo_2: float
-    ganancia: float
-
-    # Constructor
-    def __init__(self, nombre, tipo, constante_de_tiempo_1, constante_de_tiempo_2, ganancia):
-        super().__init__(nombre, tipo)
-        self.constante_de_tiempo_1 = constante_de_tiempo_1
-        self.constante_de_tiempo_2 = constante_de_tiempo_2
-        self.ganancia = ganancia
-
-    # Implementación del método simular_senal()
-    def simular_senal(self, senal):
-        # Aquí puedes implementar la lógica para simular la señal a través del sistema
-        pass
-
-    # Implementación del método obtener_salida()
-    def obtener_salida(self):
-        # Aquí puedes implementar la lógica para obtener la salida del sistema
-        pass
+    def mostrar_datos(self):
+        # Aquí puedes implementar la lógica para mostrar los datos del sistema
+        pass    
+    
