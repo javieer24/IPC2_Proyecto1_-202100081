@@ -33,3 +33,20 @@ def generar_grafica():
     dot.edge('Prueba 1 reducida', '7', label='g=2(t-2.5)')
     # Aquí puedes agregar más nodos y aristas a la gráfica
     dot.render('prueba.gv', view=True, format='png')
+
+def generar_grafica_desde_xml(nombre_archivo):
+    # Aquí puedes implementar la lógica para generar una gráfica utilizando Graphviz
+    dot = graphviz.Graph()
+    dot.node('Prueba 1 reducida')
+    dot.node('5')
+    dot.node('7')
+    dot.node('0')
+    dot.node('6')
+    dot.node('0_2')
+    dot.node('9')
+    dot.node('4')
+    dot.edges([('Prueba 1 reducida', '5'), ('Prueba 1 reducida', '7'), ('Prueba 1 reducida', '0'), ('Prueba 1 reducida', '6'), ('Prueba 1 reducida', '0_2'), ('Prueba 1 reducida', '9'), ('Prueba 1 reducida', '4')])
+    dot.edge('Prueba 1 reducida', '5', label='g=1(t-1.3)')
+    dot.edge('Prueba 1 reducida', '7', label='g=2(t-2.5)')
+    # Aquí puedes agregar más nodos y aristas a la gráfica
+    dot.render('prueba.gv', view=True, format='png')
