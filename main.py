@@ -1,63 +1,51 @@
-from sistema import inicializar_sistema
+from turtle import dot
+from graphviz import Digraph
+from archivo import *
+import xml.etree.ElementTree as ET 
+from grafica import Grafica
+import graphviz as gv
+import os
 from grafica import generar_grafica
+# Agregar una variable para verificar si se ha cargado un archivo
+archivo_xml_cargado = False
+# Agregar una variable para verificar si se ha cargado un archivo
+archivo_cargado = False
+# Formatos de archivo de salida predeterminados compatibles
+formatos_salida_compatibles = ["png", "svg"]
+archivo_salida_formato = "png"  # Formato de archivo de salida predeterminado
 
-def cargar_archivo(ruta):
-    tree = ET.parse(ruta)
-    root = tree.getroot()
-    for senal in root.findall('senal'):
-        nombre = senal.get('nombre')
-        t = int(senal.get('t'))
-        A = int(senal.get('A'))
-        # Aquí se puede implementar la lógica para procesar la señal de audio
-        for dato in senal.findall('dato'):
-            t_dato = int(dato.get('t'))
-            A_dato = int(dato.get('A'))
-            # Aquí se puede implementar la lógica para procesar los datos de la señal de audio
+# Obtener la ruta raíz del proyecto
+ruta_proyecto = os.getcwd()  # Esto obtiene la ruta del directorio de trabajo actual
 
-def guardar_datos():
-    # Aquí se puede implementar la lógica para guardar los datos ingresados por el usuario
+
+def inicializar_sistema():
+    # Aquí se puede implementar la lógica para inicializar el sistema
     pass
-
-def generar_grafica(nombre, datos):
-    dot = Digraph()
-    # Aquí se puede implementar la lógica para agregar nodos y aristas a la gráfica utilizando los datos
-    dot.render(nombre + '.gv', view=True, format='png')
-
-def procesar_archivo():
-    # Aquí puedes implementar la lógica para procesar el archivo cargado previamente
-    print("Calculando la matriz binaria...")
-    # Aquí puedes implementar la lógica para calcular la matriz binaria
-    print("Realizando suma de tuplas...")
-    # Aquí puedes implementar la lógica para realizar la suma de tuplas
-
-def escribir_archivo_salida():
-    # Aquí puedes implementar la lógica para escribir el archivo de salida
-    ruta = input("Ingrese la ruta donde desea guardar la imagen: ")
-    dot = Digraph()
-    dot.node('Prueba 1 reducida')
-    dot.node('5')
-    dot.node('7')
-    dot.node('0')
-    dot.node('6')
-    dot.node('0_2')
-    dot.node('9')
-    dot.node('4')
-    dot.edges([('Prueba 1 reducida', '5'), ('Prueba 1 reducida', '7'), ('Prueba 1 reducida', '0'), ('Prueba 1 reducida', '6'), ('Prueba 1 reducida', '0_2'), ('Prueba 1 reducida', '9'), ('Prueba 1 reducida', '4')])
-    dot.edge('Prueba 1 reducida', '5', label='g=1(t-1.3)')
-    dot.edge('Prueba 1 reducida', '7', label='g=2(t-2.5)')
-    # Aquí puedes agregar más nodos y aristas a la gráfica
-    dot.render(ruta, view=True, format='png')
-
+  
 def mostrar_datos_estudiante():
     # Aquí puedes implementar la lógica para mostrar los datos del estudiante
-    print("Nombre del estudiante:", nombre_estudiante)
-    
-    
+    print("Nombre del estudiante:", "Javier Andrés Monjes Solórzano")    
+    print("Carné del estudiante:", "202100081")  
+    print("Introducción a la Programación y Computación 2 Sección \"A\"")    
+    print("Ingeniería en Ciencias y Sistemas")    
+    print("4to Semestre")   
+    pass
+
+# ...
+# Agregar una variable para verificar si se ha cargado un archivo XML
+archivo_xml_cargado = False
+# Agregar una variable para verificar si se ha cargado un archivo (podría estar relacionada con el problema)
+archivo_cargado = False
+# Formatos de archivo de salida predeterminados compatibles
+formatos_salida_compatibles = ["png", "svg"]
+archivo_salida_formato = "png"  # Formato de archivo de salida predeterminado
+
+# Obtener la ruta raíz del proyecto
+ruta_proyecto = os.getcwd()  # Esto obtiene la ruta del directorio de trabajo actual
+
 def main():
-    """
-    Esta función es el punto de entrada del programa y muestra un menú al usuario para interactuar con el sistema.
-    El menú permite al usuario cargar un archivo, procesar el archivo, escribir un archivo de salida, mostrar datos del estudiante, generar una gráfica, inicializar el sistema y salir del programa.
-    """
+    global archivo_xml_cargado
+
     while True:
         print("Menú principal:")
         print("1. Cargar archivo")
@@ -72,19 +60,45 @@ def main():
 
         if opcion == "1":
             ruta = input("Ingrese la ruta del archivo: ")
-            cargar_archivo(ruta)
+
+            confirmacion = input(f"¿Está seguro de que '{ruta}' es la ruta correcta? (S/N): ").strip().upper()
+
+            if confirmacion == 'S':
+                archivo_xml_cargado = cargar_archivo(ruta)
+                if archivo_xml_cargado:
+                    print("Archivo cargado con éxito.")
+
         elif opcion == "2":
-            procesar_archivo()
+            if not archivo_xml_cargado:
+                print("No se ha cargado un archivo. Por favor, cargue un archivo primero.")
+            else:
+                procesar_archivo()
+
         elif opcion == "3":
-            escribir_archivo_salida()
+            if not archivo_xml_cargado:
+                print("No se ha cargado un archivo. Por favor, cargue un archivo primero.")
+            else:
+                formato_salida = input("Elija el formato del archivo de salida (PNG o SVG)(escriba en minusculas): ").strip().lower()
+                if formato_salida in ["png", "svg"]:
+                    escribir_archivo_salida(formato_salida)
+                else:
+                    print(f"El formato de salida '{formato_salida}' no es válido. Por favor, elija un formato válido.")
+
         elif opcion == "4":
             mostrar_datos_estudiante()
+
         elif opcion == "5":
-            generar_grafica()
+            if archivo_xml_cargado:
+                formato_salida = input("Elija el formato del archivo de salida (PNG o SVG): ").strip().lower()
+                generar_grafica(formato_salida)  # Corregir el nombre de la función
+
         elif opcion == "6":
-            inicializar_sistema()
+            inicializar_sistema()  # Esta opción permite inicializar el sistema
+
         elif opcion == "7":
             break
 
 if __name__ == "__main__":
+    archivo_xml_cargado = False
+    datos_archivo_xml = None
     main()
