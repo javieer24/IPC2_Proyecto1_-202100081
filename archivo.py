@@ -1,10 +1,14 @@
 import xml.etree.ElementTree as ET
 from graphviz import Digraph
 import os
+
 # Agregar una variable para verificar si se ha cargado un archivo XML
 archivo_xml_cargado = False
 # Agregar una variable para verificar si se ha cargado un archivo (podría estar relacionada con el problema)
 archivo_cargado = False
+# Agregar la variable datos_archivo_xml aquí
+datos_archivo_xml = None  # Esta variable almacenará los datos del archivo XML
+
 # Formatos de archivo de salida predeterminados compatibles
 formatos_salida_compatibles = ["png", "svg"]
 archivo_salida_formato = "png"  # Formato de archivo de salida predeterminado
@@ -14,7 +18,7 @@ ruta_proyecto = os.getcwd()  # Esto obtiene la ruta del directorio de trabajo ac
 
 # Modificar la opción 1 para cargar el archivo y realizar la conversión
 def cargar_archivo(ruta):
-    global datos_archivo_xml, archivo_xml_cargado  # Acceder a las variables globales
+    global datos_archivo_xml
 
     try:
         tree = ET.parse(ruta)
@@ -23,17 +27,15 @@ def cargar_archivo(ruta):
         # Guardar los datos del archivo XML cargado en la variable global
         datos_archivo_xml = root
 
-        # Establecer archivo_xml_cargado en True después de cargar el archivo con éxito
-        archivo_xml_cargado = True
-
         # Mostrar mensaje de confirmación
         print(f"Archivo XML cargado desde: {ruta}")
         return True  # Devolver True si la carga fue exitosa
     except Exception as e:
         print(f"Error al cargar el archivo: {e}")
+        datos_archivo_xml = None  # Asegúrate de que la variable esté definida
         return False  # Devolver False en caso de error
 
-def obtener_datos_archivo_xml(ruta):
+def obtener_datos_archivo_xml():
     global datos_archivo_xml
 
     try:
@@ -71,24 +73,6 @@ def guardar_datos(datos, nombre_archivo):
         print(f"Los datos se han guardado en '{nombre_archivo}'")
     except Exception as e:
         print(f"Error al guardar los datos: {e}")
-    pass
-
-def procesar_archivo():
-    global archivo_xml_cargado
-
-    if not archivo_xml_cargado:
-        print("No se ha cargado un archivo. Por favor, cargue un archivo primero.")
-        return
-
-    # Aquí puedes implementar la lógica para procesar el archivo cargado previamente
-    print("Calculando la matriz binaria...")
-    # Aquí puedes implementar la lógica para calcular la matriz binaria
-    print("Realizando suma de tuplas...")
-    # Aquí puedes implementar la lógica para realizar la suma de tuplas
-
-import os
-# Obtener la ruta raíz del proyecto
-ruta_proyecto = os.getcwd()  # Esto obtiene la ruta del directorio de trabajo actual
 
 # ...
 
@@ -127,8 +111,9 @@ def escribir_archivo_salida(formato_salida):
         xml_file.write(ET.tostring(nueva_raiz))
 
     print(f"El archivo XML con la información de la gráfica se ha guardado como '{nuevo_archivo_xml}'.")
-    
-    
+
+# ...
+
 # Modificar la opción 5 para generar la gráfica en el archivo de salida
 def generar_grafica(nombre_archivo, formato_salida):
     global datos_archivo_xml, ruta_proyecto
@@ -169,7 +154,7 @@ def generar_grafica(nombre_archivo, formato_salida):
         nuevo_archivo_xml = os.path.join(ruta_proyecto, f"{nombre_grafica}.xml")
         with open(nuevo_archivo_xml, "wb") as xml_file:
             xml_file.write(ET.tostring(nueva_raiz))
-
+            
         print(f"El archivo XML con la información de la gráfica se ha guardado como '{nuevo_archivo_xml}'.")
     else:
         print("La gráfica no se ha guardado.")
