@@ -91,3 +91,4 @@ if __name__ == "__main__":
 
     # Imprimir la salida del sistema
     print("Salida del sistema:", salida)
+    

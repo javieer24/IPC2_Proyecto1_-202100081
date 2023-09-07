@@ -1,6 +1,6 @@
 from ListaSimple import ListaSimple
 from Tiempo import Tiempo
-
+from abc import ABC, abstractmethod
 # Clase abstracta para representar las señales
 class Senal(ABC):
     # Atributos

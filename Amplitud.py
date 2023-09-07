@@ -18,4 +18,4 @@ class Amplitud:
 
     def print(self):
         print(self.amplitud, self.dato)
-
+        
