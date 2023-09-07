@@ -35,13 +35,34 @@ def cargar_archivo(ruta):
         return None  # En caso de error, devolver None
 
 
-    
+    # Define una matriz de prueba
+matriz = [
+    [1, 0, 0, 1],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [1, 1, 0, 1]
+]
+
+# Define las matrices matriz_binaria y matriz_acceso antes de procesar el archivo
+matriz_binaria = [[0 for _ in range(len(matriz[0]))] for _ in range(len(matriz))]
+matriz_acceso = [[0 for _ in range(len(matriz[0]))] for _ in range(len(matriz))]
 def procesar_archivo():
     # Aquí puedes implementar la lógica para procesar el archivo cargado previamente
     print("Calculando la matriz binaria...")
     # Aquí puedes implementar la lógica para calcular la matriz binaria
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            if matriz[i][j] != 0:
+                matriz_binaria[i][j] = 1
+
     print("Realizando suma de tuplas...")
     # Aquí puedes implementar la lógica para realizar la suma de tuplas
+    for i in range(len(matriz_binaria)):
+        for j in range(len(matriz_binaria)):
+            if i != j and matriz_binaria[i] == matriz_binaria[j]:
+                for k in range(len(matriz[i])):
+                    matriz_acceso[i][k] += matriz[j][k]
+    pass
     
     
 # Coloca el código que te proporcioné aquí
@@ -105,38 +126,61 @@ def guardar_datos(datos, nombre_archivo):
 
 
 # Modificar la opción 3 para generar solo el archivo de salida y el nuevo XML
-def escribir_archivo_salida(formato_salida):
-    global archivo_cargado, ruta_proyecto, datos_archivo_xml  # Acceder a las variables globales
+def escribir_archivo_salida(formato_grafica):
+    global matriz_patrones_acceso, frecuencias_filas, grado_matrices, dimensiones_matrices
 
-    if formato_salida not in ('png', 'svg'):
-        print("Formato no válido. Se generará el archivo en formato SVG por defecto.")
-        formato_salida = 'svg'
-    
-    # Obtener el nombre del archivo cargado desde los datos del XML
-    if datos_archivo_xml is not None:
-        nombre_grafica = datos_archivo_xml.find('senal').get('nombre')
-    else:
-        print("No se ha cargado un archivo XML. Por favor, cargue un archivo primero.")
+    # Verifica si se han calculado las matrices y las frecuencias
+    if matriz_patrones_acceso is None or frecuencias_filas is None:
+        print("No se han calculado las matrices de patrones de acceso o las frecuencias de las filas.")
         return
 
-    # Generar el nombre del archivo de salida con "v" al principio y el formato
-    nombre_archivo_salida = input("Ingrese el nombre del archivo de salida: ")
+    # Comienza a construir el XML
+    nueva_raiz = ET.Element("datos_proyecto")
 
-    # Generar la gráfica y guardarla en el formato especificado
-    generar_grafica(nombre_archivo_salida, formato_salida)
+    # Agrega información sobre las dimensiones de las matrices
+    dimensiones_element = ET.SubElement(nueva_raiz, "dimensiones_matrices")
+    for i, dimension in enumerate(dimensiones_matrices):
+        dim_element = ET.SubElement(dimensiones_element, f"dimension_{i+1}")
+        dim_element.text = str(dimension)
 
-    print(f"La gráfica se ha guardado como '{nombre_archivo_salida}'.")
+    # Agrega información sobre el grado de las matrices
+    grado_element = ET.SubElement(nueva_raiz, "grado_matrices")
+    grado_element.text = str(grado_matrices)
 
-    # Crear el nuevo archivo XML con la información de la gráfica
-    nueva_raiz = ET.Element("nueva_raiz")
-    nueva_senal = ET.SubElement(nueva_raiz, "nueva_senal", nombre=nombre_grafica)
-    nueva_dato = ET.SubElement(nueva_senal, "dato", t="1", A="1")
+    # Agrega las matrices de patrones de acceso y sus frecuencias
+    matrices_element = ET.SubElement(nueva_raiz, "matrices_patrones_acceso")
+    for i, matriz in enumerate(matriz_patrones_acceso):
+        matriz_element = ET.SubElement(matrices_element, f"matriz_{i+1}")
+        
+        # Agrega la matriz como una cadena de texto
+        matriz_texto = ' '.join(map(str, matriz))
+        matriz_element.text = matriz_texto
+        
+        # Agrega la frecuencia de la fila correspondiente
+        frecuencia_element = ET.SubElement(matriz_element, "frecuencia")
+        frecuencia_element.text = str(frecuencias_filas[i])
 
-    nuevo_archivo_xml = os.path.join(ruta_proyecto, f"{nombre_grafica}.xml")
-    with open(nuevo_archivo_xml, "wb") as xml_file:
-        xml_file.write(ET.tostring(nueva_raiz))
+    # Genera el archivo XML
+    archivo_salida = "Archivo_Salida.xml"
+    ruta_proyecto = os.getcwd()  # Cambia la ruta si es necesario
+    ruta_completa = os.path.join(ruta_proyecto, archivo_salida)
 
-    print(f"El archivo XML con la información de la gráfica se ha guardado como '{nuevo_archivo_xml}'.")
+    try:
+        # Escribe el XML en el archivo
+        with open(ruta_completa, "wb") as xml_file:
+            xml_file.write(ET.tostring(nueva_raiz))
+        print(f"El archivo XML con los datos de patrones de acceso se ha guardado como '{archivo_salida}'.")
+
+        # Guarda la gráfica en el formato especificado (PNG o SVG)
+        if formato_grafica in ('png', 'svg'):
+            nombre_grafica = input("Ingrese el nombre del archivo de gráfica de salida: ")
+            generar_grafica(nombre_grafica, formato_grafica)
+            print(f"La gráfica se ha guardado como '{nombre_grafica}' en formato {formato_grafica}.")
+        else:
+            print("Formato de gráfica no válido. No se ha guardado la gráfica.")
+
+    except Exception as e:
+        print(f"Error al escribir el archivo XML: {e}")
 
 # Modificar la opción 5 para generar solo el archivo de salida y el nuevo XML
 def generar_grafica(nombre_archivo, formato_salida):

@@ -22,3 +22,4 @@ class Pila(ListaSimple): #uso de herencia
             self.primer_nodo = self.primer_nodo.get_siguiente()
             self.size -= 1
             return tmp.get_dato()
+        

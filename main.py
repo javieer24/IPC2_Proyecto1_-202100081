@@ -54,13 +54,37 @@ def mostrar_datos_estudiante():
     print("Ingeniería en Ciencias y Sistemas")    
     print("4to Semestre")   
     pass
+
+# Define una matriz de prueba
+matriz = [
+    [1, 0, 0, 1],
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [1, 1, 0, 1]
+]
+
+# Define las matrices matriz_binaria y matriz_acceso antes de procesar el archivo
+matriz_binaria = [[0 for _ in range(len(matriz[0]))] for _ in range(len(matriz))]
+matriz_acceso = [[0 for _ in range(len(matriz[0]))] for _ in range(len(matriz))]
+
 def procesar_archivo():
     # Aquí puedes implementar la lógica para procesar el archivo cargado previamente
     print("Calculando la matriz binaria...")
     # Aquí puedes implementar la lógica para calcular la matriz binaria
+    for i in range(len(matriz)):
+        for j in range(len(matriz[i])):
+            if matriz[i][j] != 0:
+                matriz_binaria[i][j] = 1
+
     print("Realizando suma de tuplas...")
     # Aquí puedes implementar la lógica para realizar la suma de tuplas
-# ...
+    for i in range(len(matriz_binaria)):
+        for j in range(len(matriz_binaria)):
+            if i != j and matriz_binaria[i] == matriz_binaria[j]:
+                for k in range(len(matriz[i])):
+                    matriz_acceso[i][k] += matriz[j][k]
+    pass
+
 # Agregar una variable para verificar si se ha cargado un archivo XML
 archivo_xml_cargado = False
 # Agregar una variable para verificar si se ha cargado un archivo (podría estar relacionada con el problema)
@@ -132,6 +156,7 @@ def main():
                 elif opcion == 6:
                     inicializar_sistema()  # Esta opción permite inicializar el sistema
                 elif opcion == 7:
+                    print("Saliendo del programa...")
                     break
             else:
                 print("Opción no válida. Ingrese una opción entre 1 - 7.")

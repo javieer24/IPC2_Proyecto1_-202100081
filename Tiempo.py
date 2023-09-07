@@ -27,3 +27,4 @@ class Tiempo:
         while objAmplitud != None:
             print(objAmplitud.getDato().getAmplitud())
             objAmplitud = objAmplitud.getSiguiente()
+            

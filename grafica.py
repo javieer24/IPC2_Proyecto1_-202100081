@@ -1,4 +1,7 @@
 import graphviz
+import os
+import xml.etree.ElementTree as ET
+from archivo import *
 class Grafica:
     def __init__(self, nombre_archivo):
         self.nombre_archivo = nombre_archivo
@@ -51,3 +54,5 @@ def generar_grafica_desde_xml(nombre_archivo):
     dot.edge('Prueba 1 reducida', '7', label='g=2(t-2.5)')
     # Aquí puedes agregar más nodos y aristas a la gráfica
     dot.render('prueba.gv', view=True, format='png')
+    
+   
